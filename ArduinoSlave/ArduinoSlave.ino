@@ -6,6 +6,22 @@
 #define I2C_BUFFER_MAX_LEN 32
 #define MSG_HEADER_SIZE 4
 #define DEBUG 0
+#define DATA_LIST_MAX_COUNT 32
+
+enum Type : uint8_t
+{
+
+	ArduinoLong,
+	ArduinoShort,
+	String,
+};
+typedef struct I2cData
+{
+	Type typeOfData;
+	uint8_t sizeInBytes;	// Max 32 bytes ( I2c buffer size )
+	void* data;
+}I2cData;
+
 
 void setup() {
 

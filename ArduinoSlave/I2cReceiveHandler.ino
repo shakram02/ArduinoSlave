@@ -8,22 +8,22 @@ void initI2cSlave(int address)
 
 	Wire.begin(address);
 	Wire.onReceive(addToList);
-	//Wire.onReceive(insertToQueue);
-	//void insertToList(int msSize)
-	//{
-	//	va_list.add(readDirectBytes(msSize));
-	//}
-	//Wire.onReceive(addToList);
 }
 
 void addToList(int messageSize)
 {
 	//Serial.println("r");
-	
+
 	void* readData = readDirectBytes(messageSize);
-	
+
+	// Bad message
+	if (readData == NULL)
+		return;
+
 	Serial.println("Done reading message");
-	Serial.println(*((short*)readData));
+	I2cData convertedData = *((I2cData*)readData);
+	Serial.print(*((short*)convertedData.data));
+	Serial.println();
 }
 
 void* readDirectBytes(int messageSize)
@@ -34,13 +34,15 @@ void* readDirectBytes(int messageSize)
 #ifdef DEBUG
 		Serial.println("Message exceeded size limit");
 #endif
-		return 0;
+		return NULL;
 	}
 
 	char* token;	// Tokens of the message
 	char* buf = (char*)malloc(sizeof(char) * messageSize);
 	char* msg = (char*)malloc(sizeof(char) * (messageSize - MSG_HEADER_SIZE));
-	
+
+	I2cData* ret = (I2cData*)malloc(sizeof(I2cData));
+
 	for (size_t i = 0; i < messageSize; i++)
 	{
 		buf[i] = Wire.read();
@@ -86,14 +88,15 @@ void* readDirectBytes(int messageSize)
 		// Get the second token of the string
 
 		int* shortRetPointer = (int*)malloc(sizeof(int));
-
 		*shortRetPointer = readShortI2c(msg);
+		ret->data = shortRetPointer;
+		ret->typeOfData = ArduinoShort;
 
-		Serial.print(*shortRetPointer);
+		Serial.print(*((short*)ret->data));
 		Serial.println(" then Free resources");
 		freeResources(buf, msg);
 
-		return shortRetPointer;
+		return ret;
 	}
 	else if (!strcmp(token, "nsh"))
 	{
@@ -192,5 +195,4 @@ void printString(char* str, int messageSize)
 		Serial.print((byte)curent);
 		Serial.println();
 	}
-	
 }
