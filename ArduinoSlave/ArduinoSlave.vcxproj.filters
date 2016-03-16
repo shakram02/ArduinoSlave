@@ -16,6 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ArduinoSlave.ino" />
+    <None Include="DataLinkedList.ino" />
+    <None Include="I2cReceiveHandler.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ArduinoSlave.vsarduino.h">
