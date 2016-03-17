@@ -143,6 +143,15 @@ void* readDirectBytes(int messageSize)
 	else if (!strcmp(token, "byt"))
 	{
 		// Recieved a byte value
+		byte* byteRetPointer = (byte*)malloc(sizeof(byte));
+		*byteRetPointer = messageContent[0];
+		ret->data = byteRetPointer;
+		ret->typeOfData = ArduinoByte;
+
+		// Free message buffer only because the msgContent value is used in storing the incomming byte
+		free(messageBuffer);
+
+		return ret;
 	}
 	// Release the buffer after getting all tokens
 	freeResources(messageBuffer, messageContent);

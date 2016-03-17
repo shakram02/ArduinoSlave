@@ -17,6 +17,7 @@ enum Type : uint8_t
 	ArduinoShort,
 	ArduinoNegativeShort,
 	ArduinoString,
+	ArduinoByte,
 };
 typedef struct I2cData
 {
