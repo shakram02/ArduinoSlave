@@ -20,9 +20,9 @@ void addToList(int messageSize)
 	if (readData == NULL)
 		return;
 
-	Serial.println("Done reading message");
+	Serial.print("Done reading message  -> ");
 	I2cData convertedData = *((I2cData*)readData);
-	Serial.print(*((short*)convertedData.data));
+	Serial.print(*((byte*)convertedData.data));
 	Serial.println();
 }
 
