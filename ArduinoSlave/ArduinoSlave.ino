@@ -4,16 +4,19 @@
 
 #include <Wire\Wire.h>
 #define I2C_BUFFER_MAX_LEN 32
+#define DATA_LIST_MAX_COUNT 32
 #define MSG_HEADER_SIZE 4
 #define DEBUG 0
-#define DATA_LIST_MAX_COUNT 32
+#define DEBUG1 0
 
 enum Type : uint8_t
 {
 
 	ArduinoLong,
+	ArduinoNegativeLong,
 	ArduinoShort,
-	String,
+	ArduinoNegativeShort,
+	ArduinoString,
 };
 typedef struct I2cData
 {
